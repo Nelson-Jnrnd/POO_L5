@@ -141,14 +141,14 @@ public class Matrice {
         return result;
     }
 
-    public Matrice getTransposee(){
+   /* public Matrice getTransposee(){
         int[] transpose = new int[n*m];
         for (int in = 0; in < n; in++) {
             for(int im = 0; im < m; im++){
                 //transpose[in * n + im] =
             }
         }
-    }
+    }*/
     public void fillMatriceWithRandomValues(){
         for(int i = 0; i < m; ++i){
             for(int j = 0; j < n; ++j){
