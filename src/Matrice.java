@@ -37,10 +37,10 @@ public class Matrice {
         return this.n;
     }
     public boolean isColumnInMatrice(int column){
-        return (column > 0 && column <= n);
+        return (column >= 0 && column < n);
     }
     public boolean isRowInMatrice(int row){
-        return (row > 0 && row <= m);
+        return (row >= 0 && row < m);
     }
     public boolean isInMatrice(int column, int row){
         return  isColumnInMatrice(column) && isRowInMatrice(row);
@@ -48,7 +48,7 @@ public class Matrice {
     public int getValueAtCoordinate(int column, int row) {
         if(!isInMatrice(column, row))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
-        return values[(row-1) * n + column-1];
+        return values[(row) * n + column];
     }
     public int[] getColumn(int column){
         if(!isColumnInMatrice(column))
@@ -75,7 +75,7 @@ public class Matrice {
     public void setValueAtCoordinate(int column, int row, int value){
         if(!isInMatrice(column, row))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
-        values[(row-1) * n + column-1] = value % modulo;
+        values[(row) * n + column] = value % modulo;
     }
 
     public Matrice add(Matrice matrice){
@@ -149,6 +149,7 @@ public class Matrice {
             }
         }
     }*/
+    // TODO : est-ce que on utilise des index à 0 ou 1 ?
     public void fillMatriceWithRandomValues(){
         for(int i = 0; i < m; ++i){
             for(int j = 0; j < n; ++j){
@@ -163,7 +164,10 @@ public class Matrice {
         for(int i = 0; i < m; ++i){
             for(int j = 0; j < n; ++j){
                 s.append(getValueAtCoordinate(i, j));
+                if(j != n-1)
+                    s.append('-');
             }
+            s.append('\n');
         }
         return s.toString();
     }
