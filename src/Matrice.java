@@ -1,6 +1,8 @@
-import java.lang.reflect.Array;
-
 public class Matrice {
+    private static final Addition add = new Addition();
+    private static final Substraction sub = new Substraction();
+    private static final Multiply mul = new Multiply();
+
     private int n;
     private int m;
     private int modulo;
@@ -80,41 +82,7 @@ public class Matrice {
         values[(row) * n + column] = modulo(value, modulo);
     }
 
-    public Matrice add(Matrice matrice){
-        if(this.modulo != matrice.modulo){
-            throw new RuntimeException("You can not add two matrix with different modulus");
-        }
-
-        Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
-        for(int i = 0; i < result.m; ++i){
-            for(int j = 0; j < result.n; ++j){
-                // Check if the values can be added. Otherwise the value is 0
-                int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : 0);
-                int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : 0);
-                result.setValueAtCoordinate(i, j, a + b);
-            }
-        }
-        return result;
-    }
-
-    public Matrice sub(Matrice matrice){
-        if(this.modulo != matrice.modulo){
-            throw new RuntimeException("You can not substract two matrix with different modulus");
-        }
-
-        Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
-        for(int i = 0; i < result.m; ++i){
-            for(int j = 0; j < result.n; ++j){
-                // Check if the values can be added. Otherwise the value is 0
-                int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : 0);
-                int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : 0);
-                result.setValueAtCoordinate(i, j, a - b);
-            }
-        }
-        return result;
-    }
-
-    public Matrice sum(Matrice matrice){
+    public Matrice operation(Matrice matrice, Operation op){
         if(this.modulo != matrice.modulo){
             throw new RuntimeException("You can not sum two matrix with different modulus");
         }
@@ -125,12 +93,21 @@ public class Matrice {
                 // Check if the values can be added. Otherwise the value is 0
                 int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : 0);
                 int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : 0);
-                result.setValueAtCoordinate(i, j, a * b);
+                result.setValueAtCoordinate(i, j, op.compute(a, b));
             }
         }
         return result;
     }
 
+    public Matrice add(Matrice matrice){
+        return operation(matrice, add);
+    }
+    public Matrice sub(Matrice matrice){
+        return operation(matrice, sub);
+    }
+    public Matrice multiply(Matrice matrice){
+        return operation(matrice, mul);
+    }
    /* public Matrice getTransposee(){
         int[] transpose = new int[n*m];
         for (int in = 0; in < n; in++) {
