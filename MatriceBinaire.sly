@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-15" standalone="no"?>
+<classDiagram>
+  <diagramElements defaultViewEntities="ALL" defaultViewEnum="true" defaultViewMethods="TYPE_AND_NAME" defaultVisibleTypes="true" informations="" name="Matrice Binaire">
+    <entity entityType="CLASS" id="1" isAbstract="false" name="Matrice" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="modulus" type="int" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="M" type="int" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="N" type="int" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="array[]" type="int" visibility="PRIVATE"/>
+      <method isAbstract="false" isStatic="false" name="add" returnType="Matrice" view="DEFAULT" visibility="PUBLIC">
+        <variable const="false" name="matrice" type="Matrice"/>
+      </method>
+      <method isAbstract="false" isStatic="false" name="sub" returnType="Matrice" view="DEFAULT" visibility="PUBLIC">
+        <variable const="false" name="matrice" type="Matrice"/>
+      </method>
+      <method isAbstract="false" isStatic="false" name="sum" returnType="Matrice" view="DEFAULT" visibility="PUBLIC">
+        <variable const="false" name="matrice" type="Matrice"/>
+      </method>
+      <method isAbstract="false" isStatic="false" name="toString" returnType="String" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+  </diagramElements>
+  <umlView grid="10" name="Main view" open="true">
+    <componentView color="-2079" componentID="1" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>190</x>
+        <y>150</y>
+        <w>210</w>
+        <h>175</h>
+      </geometry>
+    </componentView>
+  </umlView>
+</classDiagram>
