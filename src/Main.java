@@ -17,9 +17,12 @@ public class Main {
         matrixWithNegativeModuloShouldThrowException();
 
         // Operations
+        operationsShouldBeCorrect();
         operationsWith2DifferentModuloShouldThrowException();
         customOperationsShouldBeCorrect();
-        operationsShouldBeCorrect();
+
+        // Graphics
+        matricesDisplayShouldBeCorrect();
     }
 
     // Creation test
@@ -163,10 +166,26 @@ public class Main {
 
     // Operation test
 
-    public static void operationsShouldBeCorrect(){
-        testMatrixOperations(3, 2, 3, 2, 4, 4);
+    public static void operationsShouldBeCorrect() {
+        boolean testStatus = true;
+        int modluo = 5;
+        Matrice testMatrice = new Matrice(4, 4, modluo);
+        Matrice testMatrice2 = new Matrice(4, 4, modluo);
+
+        int[] matriceValues = testMatrice.getValues();
+        int[] matrice2Values = testMatrice2.getValues();
+        int[] results = testMatrice.add(testMatrice2).getValues();
+
+        for (int i = 0; i < results.length; i++) {
+            if (results[i] != Math.floorMod(matriceValues[i] + matrice2Values[i], modluo)) {
+                testStatus = false;
+                break;
+            }
+        }
+        System.out.println("Test - custom operations should be correct : " + testStatus);
     }
-    public static void operationsWith2DifferentModuloShouldThrowException(){
+
+    public static void operationsWith2DifferentModuloShouldThrowException() {
         boolean testStatus = true;
 
         try {
@@ -178,7 +197,8 @@ public class Main {
         }
         System.out.println("Test - opertions with different moodulos should throw exception : " + testStatus);
     }
-    public static void customOperationsShouldBeCorrect(){
+
+    public static void customOperationsShouldBeCorrect() {
         boolean testStatus = true;
 
         Equals ope = new Equals();
@@ -197,6 +217,12 @@ public class Main {
         }
         System.out.println("Test - custom operations should be correct : " + testStatus);
     }
+
+    public static void matricesDisplayShouldBeCorrect() {
+        System.out.println("Test - Display of matrices should be correct :");
+        testMatrixOperations(3, 2, 3, 2, 4, 4);
+    }
+
     public static void testMatrixOperations(int n1, int m1, int n2, int m2, int modulo1, int modulo2, int... values) {
         System.out.println("n1 " + n1 + " m1 " + m1 + " n2 " + n2 + " m2 " + m2);
         System.out.println("modulo1 " + modulo1 + " modulo2 " + modulo2);
@@ -211,7 +237,8 @@ public class Main {
         System.out.println("one * two\n" + matrice.multiply(matrice2));
     }
 }
-class Equals implements Operation{
+
+class Equals implements Operation {
 
     @Override
     public int compute(int a, int b) {
