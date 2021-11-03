@@ -1,18 +1,43 @@
+/**
+ *
+ */
 public class Matrice {
-    private static final Addition add = new Addition();
-    private static final Substraction sub = new Substraction();
-    private static final Multiply mul = new Multiply();
-
     private int n;
     private int m;
     private int modulo;
     private int[] values;
 
-    // Constructors-------------------------------------------------
-    public Matrice(int n, int m, int modulo, int ... values) {
-        if(values.length > n * m){
+    private static final Addition add = new Addition();
+    private static final Substraction sub = new Substraction();
+    private static final Multiply mul = new Multiply();
+
+    // Matrix 1 by 1 are accepted
+    private final int MIN_WIDTH_VALUE = 1;
+    private final int MIN_HEIGHT_VALUE = 1;
+
+    private final int MIN_MODULO_VALUE = 1;
+
+    /**
+     *
+     * @param n
+     * @param m
+     * @param modulo
+     * @param values
+     * @throws RuntimeException
+     */
+    public Matrice(int n, int m, int modulo, int ... values) throws RuntimeException {
+
+        // Initial checks
+        // Throw error if width and length are smaller than expected
+        if(n < MIN_WIDTH_VALUE && m < MIN_HEIGHT_VALUE)
+            throw new RuntimeException("Invalid matrix width or height");
+        // Throw error if modulo is smaller than expected
+        if(modulo < MIN_MODULO_VALUE)
+            throw new RuntimeException("Invalid modulus");
+        // Throw error if values length is greater than it can actually fit in matrix
+        if(values.length > n * m)
             throw new RuntimeException("Matrix is not large enough to handle values");
-        }
+
 
         this.n = n;
         this.m = m;
@@ -28,33 +53,78 @@ public class Matrice {
         }
     }
 
+    /**
+     *
+     * @param m
+     */
     public Matrice(Matrice m){
         this(m.n, m.m, m.modulo, m.values);
     }
 
     // Get Matrice state -------------------------------------------
 
+    /**
+     *
+     * @return
+     */
     public int getM(){
         return this.m;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getN(){
         return this.n;
     }
+
+    /**
+     *
+     * @param column
+     * @return
+     */
     public boolean isColumnInMatrice(int column){
         return (column >= 0 && column < n);
     }
+
+    /**
+     *
+     * @param row
+     * @return
+     */
     public boolean isRowInMatrice(int row){
         return (row >= 0 && row < m);
     }
+
+    /**
+     *
+     * @param row
+     * @param column
+     * @return
+     */
     public boolean isInMatrice(int row, int column){
         return  isColumnInMatrice(column) && isRowInMatrice(row);
     }
-    public int getValueAtCoordinate(int row, int column) {
+
+    /**
+     *
+     * @param row
+     * @param column
+     * @return
+     */
+    public int getValueAtCoordinate(int row, int column) throws RuntimeException {
         if(!isInMatrice(row, column))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
         return values[(row) * n + column];
     }
-    public int[] getColumn(int column){
+
+    /**
+     *
+     * @param column
+     * @return
+     */
+    public int[] getColumn(int column) throws RuntimeException {
         if(!isColumnInMatrice(column))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
 
@@ -64,7 +134,13 @@ public class Matrice {
         }
         return columnToReturn;
     }
-    public int[] getRow(int row){
+
+    /**
+     *
+     * @param row
+     * @return
+     */
+    public int[] getRow(int row) throws RuntimeException {
         if(!isRowInMatrice(row))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
 
@@ -76,13 +152,27 @@ public class Matrice {
     }
 
     // Operations -------------------------------------------------------------
-    public void setValueAtCoordinate(int row, int column, int value){
+
+    /**
+     *
+     * @param row
+     * @param column
+     * @param value
+     */
+    public void setValueAtCoordinate(int row, int column, int value) throws RuntimeException {
         if(!isInMatrice(row, column))
-            throw new RuntimeException("out of bounds"); // TOOD préciser exception
+            throw new RuntimeException("out of bounds");
         values[(row) * n + column] = Math.floorMod(value, modulo);
     }
 
-    public Matrice operation(Matrice matrice, Operation op){
+    /**
+     *
+     * @param matrice
+     * @param op
+     * @return
+     * @throws RuntimeException
+     */
+    public Matrice operation(Matrice matrice, Operation op) throws RuntimeException{
         if(this.modulo != matrice.modulo){
             throw new RuntimeException("You can not sum two matrix with different modulus");
         }
@@ -99,23 +189,36 @@ public class Matrice {
         return result;
     }
 
+    /**
+     *
+     * @param matrice
+     * @return
+     */
     public Matrice add(Matrice matrice){
         return operation(matrice, add);
     }
+
+    /**
+     *
+     * @param matrice
+     * @return
+     */
     public Matrice sub(Matrice matrice){
         return operation(matrice, sub);
     }
+
+    /**
+     *
+     * @param matrice
+     * @return
+     */
     public Matrice multiply(Matrice matrice){
         return operation(matrice, mul);
     }
-   /* public Matrice getTransposee(){
-        int[] transpose = new int[n*m];
-        for (int in = 0; in < n; in++) {
-            for(int im = 0; im < m; im++){
-                //transpose[in * n + im] =
-            }
-        }
-    }*/
+
+    /**
+     *
+     */
     public void fillMatriceWithRandomValues(){
         for(int i = 0; i < m; ++i){
             for(int j = 0; j < n; ++j){
@@ -125,6 +228,10 @@ public class Matrice {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String toString(){
         StringBuilder s = new StringBuilder();
         for(int i = 0; i < m; ++i){
