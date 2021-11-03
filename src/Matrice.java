@@ -34,17 +34,17 @@ public class Matrice {
      * @param values Fill matrix with these values (optional)
      * @throws RuntimeException Throw error if there is inconsistency with inbound data
      */
-    public Matrice(int n, int m, int modulo, int ... values) throws RuntimeException {
+    public Matrice(int n, int m, int modulo, int... values) throws RuntimeException {
 
         // Initial checks
         // Throw error if width and length are smaller than expected
-        if(n < MIN_WIDTH_VALUE && m < MIN_HEIGHT_VALUE)
+        if (n < MIN_WIDTH_VALUE || m < MIN_HEIGHT_VALUE)
             throw new RuntimeException("Invalid matrix width or height");
         // Throw error if modulo is smaller than expected
-        if(modulo < MIN_MODULO_VALUE)
+        if (modulo < MIN_MODULO_VALUE)
             throw new RuntimeException("Invalid modulus");
         // Throw error if values length is greater than it can actually fit in matrix
-        if(values.length > n * m)
+        if (values.length > n * m)
             throw new RuntimeException("Matrix is not large enough to handle values");
 
         this.n = n;
@@ -53,10 +53,11 @@ public class Matrice {
         this.values = new int[n*m];
 
         // Sets given values in matrix
-        if(values.length != 0) {
-            System.arraycopy(values, 0, this.values, 0, values.length);
-        }
-        else{
+        if (values.length != 0) {
+            for (int i = 0; i < values.length; ++i) {
+                this.values[i] = Math.floorMod(values[i], modulo);
+            }
+        } else {
             fillMatriceWithRandomValues();
         }
     }
