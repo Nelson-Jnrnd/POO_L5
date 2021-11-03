@@ -6,6 +6,6 @@ public class Main {
         System.out.println("two:\n" + matrice2);
         System.out.println("one + two\n" + matrice.add(matrice2));
         System.out.println("one - two\n" + matrice.sub(matrice2));
-        System.out.println("one * two\n" + matrice.sum(matrice2));
+        System.out.println("one * two\n" + matrice.multiply(matrice2));
     }
 }
