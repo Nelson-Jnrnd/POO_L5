@@ -111,6 +111,13 @@ public class Matrice {
         return values[(row) * n + column];
     }
 
+    /**
+     * Get all the values of the matrice
+     * @return array with all the values of the matrix, from left to right, top to bottom
+     */
+    public int[] getValues(){
+        return values;
+    }
     // Operations -------------------------------------------------------------
 
     /**

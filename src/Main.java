@@ -1,96 +1,203 @@
 /**
  * Authors:     Alen Bijelic, Nelson Jeanrenaud
  * Date:        03.11.2021
- *
+ * <p>
  * Description: Program that tests all the features of the Matrice class for many cases.
  */
 public class Main {
     public static void main(String[] args) {
-        // Test basique.........
-        System.out.println("Test du constructeur : ");
-        System.out.println("Avec des matrices carrées...");
-        System.out.println("3..");
-        testMatrice(3, 3, 3, 3, 5, 5);
-        System.out.println("2..");
-        testMatrice(2, 2, 2, 2, 5, 5);
-        System.out.println("1..");
-        testMatrice(1, 1, 1, 1, 5, 5);
+        // Creation
+        randomConstructorShouldBeCorrect();
+        valuesConstructorShouldBeCorrect();
+        valuesConstructorWithNotEnoughValuesShouldBeCorrect();
+        valuesConstructorWithTooManyValuesShouldThrowException();
+        matrixWithNullDimensionsShouldThrowException();
+        matrixWithNegativeDimensionsShouldThrowException();
+        matrixWithNullModuloShouldThrowException();
+        matrixWithNegativeModuloShouldThrowException();
 
-        System.out.println("Avec des matrices pas carrées...");
-        testMatrice(4, 3, 5, 3, 5, 5);
-        testMatrice(1, 3, 3, 1, 5, 5);
-        testMatrice(3, 6, 3, 6, 5, 5);
-
-        // Test de valeurs limites.......
-        // Dimension impossibles.......
-        try {
-            System.out.println("Avec un n nul...");
-            testMatrice(0, 3, 5, 3, 5, 5);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-        try {
-            System.out.println("Avec un m nul...");
-            testMatrice(4, 0, 5, 3, 5, 5);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-        try {
-            System.out.println("Avec un n négatif...");
-            testMatrice(-4, 3, 5, 3, 5, 5);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-        try {
-            System.out.println("Avec un m négatif...");
-            testMatrice(4, -3, 5, 3, 5, 5);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-        try {
-            System.out.println("Avec n et m négatif...");
-            testMatrice(-4, -3, 5, 3, 5, 5);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-        /// MODULO................
-        try {
-            System.out.println("Avec un modulo négatif...");
-            testMatrice(4, 3, 5, 3, -5, -5);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-        try {
-            System.out.println("Avec un modulo nul...");
-            testMatrice(4, 3, 5, 3, 0, 0);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-        try {
-            System.out.println("Avec des modulos différents...");
-            testMatrice(4, 3, 5, 3, 4, 3);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-
-        // Valeures prédéfinies....
-        System.out.println("Avec des valeurs par défauts...");
-        testMatrice(2, 2, 2, 2, 4, 4, 2, 3, 3, 2);
-        System.out.println("Avec moins de valeurs par défauts que de cellules...");
-        testMatrice(2, 2, 2, 2, 4, 4, 2, 1);
-        try {
-            System.out.println("Avec plus de valeurs par défauts que de cellules...");
-            testMatrice(2, 2, 2, 2, 4, 4, 2, 1, 3, 3, 2, 3);
-        } catch (RuntimeException ex) {
-            System.out.println("Exception...Correct");
-        }
-        System.out.println("Avec des valeurs par défauts plus grande que le modulo...");
-        testMatrice(2, 2, 2, 2, 4, 4, 5, 12, 51, 102);
-        System.out.println("Avec des valeurs par défauts négatives...");
-        testMatrice(2, 2, 2, 2, 4, 4, -2, -4, -3, -1);
+        // Operations
+        operationsWith2DifferentModuloShouldThrowException();
+        customOperationsShouldBeCorrect();
+        operationsShouldBeCorrect();
     }
 
-    public static void testMatrice(int n1, int m1, int n2, int m2, int modulo1, int modulo2, int... values) {
+    // Creation test
+    public static void randomConstructorShouldBeCorrect() {
+        boolean testStatus = true;
+        int[] inputs = {1, 2, 3, 4, 5, 10, 20};
+        for (int input : inputs) {
+            int modulo = 4;
+            Matrice testMatrice = new Matrice(input, input, modulo);
+
+            for (int value : testMatrice.getValues()) {
+                if (value >= modulo || value < 0) {
+                    testStatus = false;
+                    break;
+                }
+            }
+        }
+        System.out.println("Test - Random constructor should create correct matrices : " + testStatus);
+    }
+
+    public static void valuesConstructorShouldBeCorrect() {
+        boolean testStatus = true;
+        int[] values = {1, 2, 0, 33, 51};
+
+        int n = 4, m = 4, modulo = 4;
+        Matrice testMatrice = new Matrice(n, m, modulo, values);
+
+        for (int value : testMatrice.getValues()) {
+            if (value >= modulo || value < 0) {
+                testStatus = false;
+                break;
+            }
+        }
+        System.out.println("Test - values constructor should create correct matrices : " + testStatus);
+    }
+
+    public static void valuesConstructorWithTooManyValuesShouldThrowException() {
+        boolean testStatus = true;
+        int[] values = {1, 2, 2, 3, 4};
+
+        int n = 2, m = 2, modulo = 4;
+        try {
+            Matrice testMatrice = new Matrice(n, m, modulo, values);
+            testStatus = false;
+        } catch (RuntimeException ignored) {
+        } finally {
+            System.out.println("Test - values constructor with too many values should throw exception : " + testStatus);
+        }
+    }
+
+    public static void valuesConstructorWithNotEnoughValuesShouldBeCorrect() {
+        boolean testStatus = true;
+        int[] values = {1, 2, 2};
+
+        int n = 5, m = 5, modulo = 4;
+        Matrice testMatrice = new Matrice(n, m, modulo, values);
+
+        for (int value : testMatrice.getValues()) {
+            if (value >= modulo || value < 0) {
+                testStatus = false;
+                break;
+            }
+        }
+        System.out.println("Test - values constructor with not enough values should create correct matrices : " + testStatus);
+    }
+
+    public static void matrixWithNullDimensionsShouldThrowException() {
+        boolean testStatus = true;
+
+        int n = 3, m = 3, modulo = 4;
+        try {
+            Matrice testMatrice = new Matrice(0, m, modulo);
+            testStatus = false;
+        } catch (RuntimeException ignored) {
+        }
+        try {
+            Matrice testMatrice = new Matrice(n, 0, modulo);
+            testStatus = false;
+        } catch (RuntimeException ignored) {
+        }
+        try {
+            Matrice testMatrice = new Matrice(0, 0, modulo);
+            testStatus = false;
+        } catch (RuntimeException ignored) {
+        }
+        System.out.println("Test - matrices with null dimension should throw exception : " + testStatus);
+    }
+
+    public static void matrixWithNegativeDimensionsShouldThrowException() {
+        boolean testStatus = true;
+
+        int modulo = 4;
+        int[] testValues = {1, 3, 2, 10, 14};
+        for (int testValue : testValues) {
+            try {
+                Matrice testMatrice = new Matrice(-1 * testValue, testValue, modulo);
+                testStatus = false;
+            } catch (RuntimeException ignored) {
+            }
+            try {
+                Matrice testMatrice = new Matrice(testValue, -1 * testValue, modulo);
+                testStatus = false;
+            } catch (RuntimeException ignored) {
+            }
+            try {
+                Matrice testMatrice = new Matrice(-1 * testValue, -1 * testValue, modulo);
+                testStatus = false;
+            } catch (RuntimeException ignored) {
+            }
+        }
+        System.out.println("Test - matrices with negative dimension should throw exception : " + testStatus);
+    }
+
+    public static void matrixWithNullModuloShouldThrowException() {
+        boolean testStatus = true;
+
+        int n = 2, m = 2, modulo = 0;
+        try {
+            Matrice testMatrice = new Matrice(n, m, modulo);
+            testStatus = false;
+        } catch (RuntimeException ignored) {
+        } finally {
+            System.out.println("Test - matrices with a null modulo should throw exception : " + testStatus);
+        }
+    }
+
+    public static void matrixWithNegativeModuloShouldThrowException() {
+        boolean testStatus = true;
+
+        int[] testValues = {-1, -2, -42, -31};
+        int n = 2, m = 2;
+        for (int testValue : testValues) {
+            try {
+                Matrice testMatrice = new Matrice(n, m, testValue);
+                testStatus = false;
+            } catch (RuntimeException ignored) {
+            }
+        }
+        System.out.println("Test - matrices with a negative modulo should throw exception : " + testStatus);
+    }
+
+    // Operation test
+
+    public static void operationsShouldBeCorrect(){
+        testMatrixOperations(3, 2, 3, 2, 4, 4);
+    }
+    public static void operationsWith2DifferentModuloShouldThrowException(){
+        boolean testStatus = true;
+
+        try {
+            Matrice matrice = new Matrice(5, 5, 2);
+            Matrice matrice2 = new Matrice(5, 5, 3);
+            matrice.add(matrice2);
+            testStatus = false;
+        } catch (RuntimeException ignored) {
+        }
+        System.out.println("Test - opertions with different moodulos should throw exception : " + testStatus);
+    }
+    public static void customOperationsShouldBeCorrect(){
+        boolean testStatus = true;
+
+        Equals ope = new Equals();
+        Matrice testMatrice = new Matrice(4, 4, 5);
+        Matrice testMatrice2 = new Matrice(4, 4, 5);
+
+        int[] matriceValues = testMatrice.getValues();
+        int[] matrice2Values = testMatrice2.getValues();
+        int[] results = testMatrice.operation(testMatrice2, ope).getValues();
+
+        for (int i = 0; i < results.length; i++) {
+            if (results[i] != (matriceValues[i] == matrice2Values[i] ? 1 : 0)) {
+                testStatus = false;
+                break;
+            }
+        }
+        System.out.println("Test - custom operations should be correct : " + testStatus);
+    }
+    public static void testMatrixOperations(int n1, int m1, int n2, int m2, int modulo1, int modulo2, int... values) {
         System.out.println("n1 " + n1 + " m1 " + m1 + " n2 " + n2 + " m2 " + m2);
         System.out.println("modulo1 " + modulo1 + " modulo2 " + modulo2);
 
@@ -102,5 +209,12 @@ public class Main {
         System.out.println("one + two\n" + matrice.add(matrice2));
         System.out.println("one - two\n" + matrice.sub(matrice2));
         System.out.println("one * two\n" + matrice.multiply(matrice2));
+    }
+}
+class Equals implements Operation{
+
+    @Override
+    public int compute(int a, int b) {
+        return (a == b ? 1 : 0);
     }
 }
