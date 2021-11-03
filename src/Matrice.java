@@ -19,9 +19,7 @@ public class Matrice {
 
         // Sets given values in matrix
         if(values.length != 0) {
-            for(int i = 0; i < values.length; ++i){
-                this.values[i] = values[i];
-            }
+            System.arraycopy(values, 0, this.values, 0, values.length);
         }
         else{
             fillMatriceWithRandomValues();
@@ -42,11 +40,11 @@ public class Matrice {
     public boolean isRowInMatrice(int row){
         return (row >= 0 && row < m);
     }
-    public boolean isInMatrice(int column, int row){
+    public boolean isInMatrice(int row, int column){
         return  isColumnInMatrice(column) && isRowInMatrice(row);
     }
-    public int getValueAtCoordinate(int column, int row) {
-        if(!isInMatrice(column, row))
+    public int getValueAtCoordinate(int row, int column) {
+        if(!isInMatrice(row, column))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
         return values[(row) * n + column];
     }
@@ -56,7 +54,7 @@ public class Matrice {
 
         int[] columnToReturn = new int[m];
         for (int i = 0; i < m; i++) {
-            columnToReturn[i] = getValueAtCoordinate(column, i);
+            columnToReturn[i] = getValueAtCoordinate(i, column);
         }
         return columnToReturn;
     }
@@ -66,14 +64,14 @@ public class Matrice {
 
         int[] rowToReturn = new int[n];
         for (int i = 0; i < n; i++) {
-            rowToReturn[i] = getValueAtCoordinate(i, row);
+            rowToReturn[i] = getValueAtCoordinate(row, i);
         }
         return rowToReturn;
     }
 
     // Operations -------------------------------------------------------------
-    public void setValueAtCoordinate(int column, int row, int value){
-        if(!isInMatrice(column, row))
+    public void setValueAtCoordinate(int row, int column, int value){
+        if(!isInMatrice(row, column))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
         values[(row) * n + column] = value % modulo;
     }
@@ -83,7 +81,7 @@ public class Matrice {
             throw new RuntimeException("You can not add two matrix with different modulus");
         }
 
-        Matrice result = new Matrice(Math.max(this.m, matrice.m), Math.max(this.n, matrice.n), matrice.modulo);
+        Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
         for(int i = 0; i < Math.min(this.m, matrice.m); ++i){
             for(int j = 0; j < Math.min(this.n, matrice.n); ++j){
                 // Check if the values can be added. Otherwise the value is 0
@@ -104,7 +102,7 @@ public class Matrice {
             throw new RuntimeException("You can not substract two matrix with different modulus");
         }
 
-        Matrice result = new Matrice(Math.max(this.m, matrice.m), Math.max(this.n, matrice.n), matrice.modulo);
+        Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
         for(int i = 0; i < Math.min(this.m, matrice.m); ++i){
             for(int j = 0; j < Math.min(this.n, matrice.n); ++j){
                 // Check if the values can be added. Otherwise the value is 0
@@ -125,7 +123,7 @@ public class Matrice {
             throw new RuntimeException("You can not sum two matrix with different modulus");
         }
 
-        Matrice result = new Matrice(Math.max(this.m, matrice.m), Math.max(this.n, matrice.n), matrice.modulo);
+        Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
         for(int i = 0; i < Math.min(this.m, matrice.m); ++i){
             for(int j = 0; j < Math.min(this.n, matrice.n); ++j){
                 // Check if the values can be added. Otherwise the value is 0
