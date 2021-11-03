@@ -77,7 +77,7 @@ public class Matrice {
     public void setValueAtCoordinate(int row, int column, int value){
         if(!isInMatrice(row, column))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
-        values[(row) * n + column] = modulo(value, modulo);
+        values[(row) * n + column] = Math.floorMod(value, modulo);
     }
 
     public Matrice add(Matrice matrice){
@@ -114,7 +114,7 @@ public class Matrice {
         return result;
     }
 
-    public Matrice sum(Matrice matrice){
+    public Matrice multiply(Matrice matrice){
         if(this.modulo != matrice.modulo){
             throw new RuntimeException("You can not sum two matrix with different modulus");
         }
@@ -131,15 +131,6 @@ public class Matrice {
         return result;
     }
 
-   /* public Matrice getTransposee(){
-        int[] transpose = new int[n*m];
-        for (int in = 0; in < n; in++) {
-            for(int im = 0; im < m; im++){
-                //transpose[in * n + im] =
-            }
-        }
-    }*/
-    // TODO : est-ce que on utilise des index à 0 ou 1 ?
     public void fillMatriceWithRandomValues(){
         for(int i = 0; i < m; ++i){
             for(int j = 0; j < n; ++j){
@@ -160,8 +151,5 @@ public class Matrice {
             s.append('\n');
         }
         return s.toString();
-    }
-    private static int modulo(int a, int b){
-        return (a % b + b) % b;
     }
 }
