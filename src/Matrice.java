@@ -1,5 +1,13 @@
 /**
+ * Authors:     Alen Bijelic, Nelson Jeanrenaud
+ * Date:        03.11.2021
  *
+ * Description: Matrice allows the user to create a custom sized matrix. You have the choice to specifie values
+ *              that will be filled in the matrix. Otherwise, matrix's values are randomly filled with values
+ *              between 0 and modulus. Another way to create matrix is using the copy constructor.
+ *              Some methods allow the user to perform mathematical operations on matrix.
+ *
+ * Comments:    Matrix with width and height under 1 can not be created. Same for modulus.
  */
 public class Matrice {
     private int n;
@@ -11,19 +19,20 @@ public class Matrice {
     private static final Substraction sub = new Substraction();
     private static final Multiply mul = new Multiply();
 
-    // Matrix 1 by 1 are accepted
     private final int MIN_WIDTH_VALUE = 1;
     private final int MIN_HEIGHT_VALUE = 1;
 
     private final int MIN_MODULO_VALUE = 1;
 
+    private final int DEFAULT_COORDINATE_VALUE = 0;
+
     /**
-     *
-     * @param n
-     * @param m
-     * @param modulo
-     * @param values
-     * @throws RuntimeException
+     * Matrice constructor
+     * @param n Matrix width
+     * @param m Matrix height
+     * @param modulo Modulus which will define the max value of matrix values
+     * @param values Fill matrix with these values (optional)
+     * @throws RuntimeException Throw error if there is inconsistency with inbound data
      */
     public Matrice(int n, int m, int modulo, int ... values) throws RuntimeException {
 
@@ -37,7 +46,6 @@ public class Matrice {
         // Throw error if values length is greater than it can actually fit in matrix
         if(values.length > n * m)
             throw new RuntimeException("Matrix is not large enough to handle values");
-
 
         this.n = n;
         this.m = m;
@@ -54,64 +62,47 @@ public class Matrice {
     }
 
     /**
-     *
-     * @param m
+     * Copy matrix constructor
+     * @param m Matrice which attributes will be copied
      */
     public Matrice(Matrice m){
         this(m.n, m.m, m.modulo, m.values);
     }
 
-    // Get Matrice state -------------------------------------------
 
     /**
-     *
-     * @return
-     */
-    public int getM(){
-        return this.m;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getN(){
-        return this.n;
-    }
-
-    /**
-     *
-     * @param column
-     * @return
+     * Check if a column is in matrix
+     * @param column Column to check
+     * @return If the column is in the matrix
      */
     public boolean isColumnInMatrice(int column){
         return (column >= 0 && column < n);
     }
 
     /**
-     *
-     * @param row
-     * @return
+     * Check if a row is in matrix
+     * @param row Row to check
+     * @return If the row is in the matrix
      */
     public boolean isRowInMatrice(int row){
         return (row >= 0 && row < m);
     }
 
     /**
-     *
-     * @param row
-     * @param column
-     * @return
+     * Check if a coordinate is in matrix
+     * @param row Row id of the coordinate
+     * @param column Column id of the coordinate
+     * @return If the coordinate is in the matrix
      */
     public boolean isInMatrice(int row, int column){
         return  isColumnInMatrice(column) && isRowInMatrice(row);
     }
 
     /**
-     *
-     * @param row
-     * @param column
-     * @return
+     * Get value of a coordinate
+     * @param row Row id of the coordinate
+     * @param column Column id of the coordinate
+     * @return The value at the specific coordinate
      */
     public int getValueAtCoordinate(int row, int column) throws RuntimeException {
         if(!isInMatrice(row, column))
@@ -119,45 +110,14 @@ public class Matrice {
         return values[(row) * n + column];
     }
 
-    /**
-     *
-     * @param column
-     * @return
-     */
-    public int[] getColumn(int column) throws RuntimeException {
-        if(!isColumnInMatrice(column))
-            throw new RuntimeException("out of bounds"); // TOOD préciser exception
-
-        int[] columnToReturn = new int[m];
-        for (int i = 0; i < m; i++) {
-            columnToReturn[i] = getValueAtCoordinate(i, column);
-        }
-        return columnToReturn;
-    }
-
-    /**
-     *
-     * @param row
-     * @return
-     */
-    public int[] getRow(int row) throws RuntimeException {
-        if(!isRowInMatrice(row))
-            throw new RuntimeException("out of bounds"); // TOOD préciser exception
-
-        int[] rowToReturn = new int[n];
-        for (int i = 0; i < n; i++) {
-            rowToReturn[i] = getValueAtCoordinate(row, i);
-        }
-        return rowToReturn;
-    }
-
     // Operations -------------------------------------------------------------
 
     /**
-     *
-     * @param row
-     * @param column
-     * @param value
+     * Set value of a coordinate
+     * @param row Row id of the coordinate
+     * @param column Column id of the coordinate
+     * @param value The value to be set at the specific coordinate
+     * @throws RuntimeException Throw error if coordinate is not in the matrix
      */
     public void setValueAtCoordinate(int row, int column, int value) throws RuntimeException {
         if(!isInMatrice(row, column))
@@ -166,23 +126,23 @@ public class Matrice {
     }
 
     /**
-     *
-     * @param matrice
-     * @param op
-     * @return
-     * @throws RuntimeException
+     * Compute mathematical operation between two matrix
+     * @param matrice Matrix to compute the operation
+     * @param op Operation type
+     * @return Result of the operation
+     * @throws RuntimeException Throws error if both modulus are different
      */
     public Matrice operation(Matrice matrice, Operation op) throws RuntimeException{
         if(this.modulo != matrice.modulo){
-            throw new RuntimeException("You can not sum two matrix with different modulus");
+            throw new RuntimeException("You can not compute operation on two matrix with different modulus");
         }
 
         Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
         for(int i = 0; i < result.m; ++i){
             for(int j = 0; j < result.n; ++j){
-                // Check if the values can be added. Otherwise the value is 0
-                int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : 0);
-                int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : 0);
+                // Check if the values can be added. Otherwise, the value is set to default value.
+                int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : DEFAULT_COORDINATE_VALUE);
+                int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : DEFAULT_COORDINATE_VALUE);
                 result.setValueAtCoordinate(i, j, op.compute(a, b));
             }
         }
@@ -190,34 +150,34 @@ public class Matrice {
     }
 
     /**
-     *
-     * @param matrice
-     * @return
+     * Compute addition between two matrix
+     * @param matrice Matrix to compute addition
+     * @return Result of the addition
      */
     public Matrice add(Matrice matrice){
         return operation(matrice, add);
     }
 
     /**
-     *
-     * @param matrice
-     * @return
+     * Compute substraction between two matrix
+     * @param matrice Matrix to compute substraction
+     * @return Result of the substraction
      */
     public Matrice sub(Matrice matrice){
         return operation(matrice, sub);
     }
 
     /**
-     *
-     * @param matrice
-     * @return
+     * Compute multiplication between two matrix
+     * @param matrice Matrix to compute multiplication
+     * @return Result of the multiplication
      */
     public Matrice multiply(Matrice matrice){
         return operation(matrice, mul);
     }
 
     /**
-     *
+     * Fill matrix coordinates with random values between 0 and modulus
      */
     public void fillMatriceWithRandomValues(){
         for(int i = 0; i < m; ++i){
@@ -229,8 +189,8 @@ public class Matrice {
     }
 
     /**
-     *
-     * @return
+     * Build string with values for each row and column
+     * @return Matrix values
      */
     public String toString(){
         StringBuilder s = new StringBuilder();
