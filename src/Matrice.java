@@ -26,6 +26,10 @@ public class Matrice {
         }
     }
 
+    public Matrice(Matrice m){
+        this(m.n, m.m, m.modulo, m.values);
+    }
+
     // Get Matrice state -------------------------------------------
 
     public int getM(){
@@ -73,7 +77,7 @@ public class Matrice {
     public void setValueAtCoordinate(int row, int column, int value){
         if(!isInMatrice(row, column))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
-        values[(row) * n + column] = value % modulo;
+        values[(row) * n + column] = modulo(value, modulo);
     }
 
     public Matrice add(Matrice matrice){
@@ -82,16 +86,12 @@ public class Matrice {
         }
 
         Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
-        for(int i = 0; i < Math.min(this.m, matrice.m); ++i){
-            for(int j = 0; j < Math.min(this.n, matrice.n); ++j){
+        for(int i = 0; i < result.m; ++i){
+            for(int j = 0; j < result.n; ++j){
                 // Check if the values can be added. Otherwise the value is 0
-                if(this.isInMatrice(i, j) && matrice.isInMatrice(i, j)){
-                    int a = getValueAtCoordinate(i, j), b = matrice.getValueAtCoordinate(i, j);
-                    result.setValueAtCoordinate(i, j, a + b);
-                }
-                else{
-                    result.setValueAtCoordinate(i, j, 0);
-                }
+                int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : 0);
+                int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : 0);
+                result.setValueAtCoordinate(i, j, a + b);
             }
         }
         return result;
@@ -103,16 +103,12 @@ public class Matrice {
         }
 
         Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
-        for(int i = 0; i < Math.min(this.m, matrice.m); ++i){
-            for(int j = 0; j < Math.min(this.n, matrice.n); ++j){
+        for(int i = 0; i < result.m; ++i){
+            for(int j = 0; j < result.n; ++j){
                 // Check if the values can be added. Otherwise the value is 0
-                if(this.isInMatrice(i, j) && matrice.isInMatrice(i, j)){
-                    int a = getValueAtCoordinate(i, j), b = matrice.getValueAtCoordinate(i, j);
-                    result.setValueAtCoordinate(i, j, a - b);
-                }
-                else{
-                    result.setValueAtCoordinate(i, j, 0);
-                }
+                int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : 0);
+                int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : 0);
+                result.setValueAtCoordinate(i, j, a - b);
             }
         }
         return result;
@@ -124,16 +120,12 @@ public class Matrice {
         }
 
         Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
-        for(int i = 0; i < Math.min(this.m, matrice.m); ++i){
-            for(int j = 0; j < Math.min(this.n, matrice.n); ++j){
+        for(int i = 0; i < result.m; ++i){
+            for(int j = 0; j < result.n; ++j){
                 // Check if the values can be added. Otherwise the value is 0
-                if(this.isInMatrice(i, j) && matrice.isInMatrice(i, j)){
-                    int a = getValueAtCoordinate(i, j), b = matrice.getValueAtCoordinate(i, j);
-                    result.setValueAtCoordinate(i, j, a * b % result.modulo);
-                }
-                else{
-                    result.setValueAtCoordinate(i, j, 0);
-                }
+                int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : 0);
+                int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : 0);
+                result.setValueAtCoordinate(i, j, a * b);
             }
         }
         return result;
@@ -168,5 +160,8 @@ public class Matrice {
             s.append('\n');
         }
         return s.toString();
+    }
+    private static int modulo(int a, int b){
+        return (a % b + b) % b;
     }
 }
