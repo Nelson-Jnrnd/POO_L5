@@ -1,7 +1,7 @@
 /**
  * Authors:     Alen Bijelic, Nelson Jeanrenaud
  * Date:        03.11.2021
- * <p>
+ *
  * Description: Program that tests all the features of the Matrix class for many cases.
  */
 public class Main {
@@ -169,16 +169,16 @@ public class Main {
 
     public static void operationsShouldBeCorrect() {
         boolean testStatus = true;
-        int modluo = 5;
-        Matrix testMatrix = new Matrix(4, 4, modluo);
-        Matrix testMatrix2 = new Matrix(4, 4, modluo);
+        int modulo = 5;
+        Matrix testMatrix = new Matrix(4, 4, modulo);
+        Matrix testMatrix2 = new Matrix(4, 4, modulo);
 
         int[] matrixValues = testMatrix.getValues();
         int[] matrix2Values = testMatrix2.getValues();
         int[] results = testMatrix.add(testMatrix2).getValues();
 
         for (int i = 0; i < results.length; i++) {
-            if (results[i] != Math.floorMod(matrixValues[i] + matrix2Values[i], modluo)) {
+            if (results[i] != Math.floorMod(matrixValues[i] + matrix2Values[i], modulo)) {
                 testStatus = false;
                 break;
             }

@@ -2,7 +2,7 @@
  * Authors:     Alen Bijelic, Nelson Jeanrenaud
  * Date:        03.11.2021
  *
- * Description: Matrice allows the user to create a custom sized matrix. You have the choice to specifie values
+ * Description: Matrix allows the user to create a custom sized matrix. You have the choice to specify values
  *              that will be filled in the matrix. Otherwise, matrix's values are randomly filled with values
  *              between 0 and modulus. Another way to create matrix is using the copy constructor.
  *              Some methods allow the user to perform mathematical operations on matrix.
