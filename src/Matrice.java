@@ -19,12 +19,12 @@ public class Matrice {
     private static final Substraction sub = new Substraction();
     private static final Multiply mul = new Multiply();
 
-    private final int MIN_WIDTH_VALUE = 1;
-    private final int MIN_HEIGHT_VALUE = 1;
+    private static final int MIN_WIDTH_VALUE = 1;
+    private static final int MIN_HEIGHT_VALUE = 1;
 
-    private final int MIN_MODULO_VALUE = 1;
+    private static final int MIN_MODULO_VALUE = 1;
 
-    private final int DEFAULT_COORDINATE_VALUE = 0;
+    private static final int DEFAULT_COORDINATE_VALUE = 0;
 
     /**
      * Matrice constructor
