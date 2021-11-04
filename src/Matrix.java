@@ -63,14 +63,6 @@ public class Matrix {
     }
 
     /**
-     * Copy matrix constructor
-     * @param m Matrice which attributes will be copied
-     */
-    public Matrix(Matrix m){
-        this(m.n, m.m, m.modulo, m.values);
-    }
-
-    /**
      * Getter for the N field of the matrix
      * @return number of columns in the matrix
      */
