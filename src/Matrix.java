@@ -9,7 +9,7 @@
  *
  * Comments:    Matrix with width and height under 1 can not be created. Same for modulus.
  */
-public class Matrice {
+public class Matrix {
     private int n;
     private int m;
     private int modulo;
@@ -34,7 +34,7 @@ public class Matrice {
      * @param values Fill matrix with these values (optional)
      * @throws RuntimeException Throw error if there is inconsistency with inbound data
      */
-    public Matrice(int n, int m, int modulo, int... values) throws RuntimeException {
+    public Matrix(int n, int m, int modulo, int... values) throws RuntimeException {
 
         // Initial checks
         // Throw error if width and length are smaller than expected
@@ -66,7 +66,7 @@ public class Matrice {
      * Copy matrix constructor
      * @param m Matrice which attributes will be copied
      */
-    public Matrice(Matrice m){
+    public Matrix(Matrix m){
         this(m.n, m.m, m.modulo, m.values);
     }
 
@@ -94,7 +94,7 @@ public class Matrice {
         return modulo;
     }
     /**
-     * Get all the values of the matrice
+     * Get all the values of the matrix
      * @return array with all the values of the matrix, from left to right, top to bottom
      */
     public int[] getValues(){
@@ -157,22 +157,22 @@ public class Matrice {
 
     /**
      * Compute mathematical operation between two matrix
-     * @param matrice Matrix to compute the operation
+     * @param matrix Matrix to compute the operation
      * @param op Operation type
      * @return Result of the operation
      * @throws RuntimeException Throws error if both modulus are different
      */
-    public Matrice operation(Matrice matrice, Operation op) throws RuntimeException{
-        if(this.modulo != matrice.modulo){
+    public Matrix operation(Matrix matrix, Operation op) throws RuntimeException{
+        if(this.modulo != matrix.modulo){
             throw new RuntimeException("You can not compute operation on two matrix with different modulus");
         }
 
-        Matrice result = new Matrice(Math.max(this.n, matrice.n), Math.max(this.m, matrice.m), matrice.modulo);
+        Matrix result = new Matrix(Math.max(this.n, matrix.n), Math.max(this.m, matrix.m), matrix.modulo);
         for(int i = 0; i < result.m; ++i){
             for(int j = 0; j < result.n; ++j){
                 // Check if the values can be added. Otherwise, the value is set to default value.
                 int a = (this.isInMatrice(i, j) ? getValueAtCoordinate(i, j) : DEFAULT_COORDINATE_VALUE);
-                int b = (matrice.isInMatrice(i, j) ? matrice.getValueAtCoordinate(i, j) : DEFAULT_COORDINATE_VALUE);
+                int b = (matrix.isInMatrice(i, j) ? matrix.getValueAtCoordinate(i, j) : DEFAULT_COORDINATE_VALUE);
                 result.setValueAtCoordinate(i, j, op.compute(a, b));
             }
         }
@@ -181,29 +181,29 @@ public class Matrice {
 
     /**
      * Compute addition between two matrix
-     * @param matrice Matrix to compute addition
+     * @param matrix Matrix to compute addition
      * @return Result of the addition
      */
-    public Matrice add(Matrice matrice){
-        return operation(matrice, add);
+    public Matrix add(Matrix matrix){
+        return operation(matrix, add);
     }
 
     /**
      * Compute substraction between two matrix
-     * @param matrice Matrix to compute substraction
+     * @param matrix Matrix to compute substraction
      * @return Result of the substraction
      */
-    public Matrice sub(Matrice matrice){
-        return operation(matrice, sub);
+    public Matrix sub(Matrix matrix){
+        return operation(matrix, sub);
     }
 
     /**
      * Compute multiplication between two matrix
-     * @param matrice Matrix to compute multiplication
+     * @param matrix Matrix to compute multiplication
      * @return Result of the multiplication
      */
-    public Matrice multiply(Matrice matrice){
-        return operation(matrice, mul);
+    public Matrix multiply(Matrix matrix){
+        return operation(matrix, mul);
     }
 
     /**

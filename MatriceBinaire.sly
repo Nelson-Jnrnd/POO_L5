@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-15" standalone="no"?>
 <classDiagram>
-  <diagramElements defaultViewEntities="ALL" defaultViewEnum="true" defaultViewMethods="TYPE_AND_NAME" defaultVisibleTypes="true" informations="" name="Matrice Binaire">
+  <diagramElements defaultViewEntities="ALL" defaultViewEnum="true" defaultViewMethods="TYPE_AND_NAME" defaultVisibleTypes="true" informations="" name="Matrix Binaire">
     <inheritance id="864">
       <child>857</child>
       <parent>854</parent>
@@ -22,13 +22,13 @@
         <variable const="false" name="b" type="int"/>
       </method>
     </entity>
-    <entity entityType="CLASS" id="1" isAbstract="false" name="Matrice" visibility="PUBLIC">
+    <entity entityType="CLASS" id="1" isAbstract="false" name="Matrix" visibility="PUBLIC">
       <attribute const="false" defaultValue="" isStatic="false" name="modulus" type="int" visibility="PRIVATE"/>
       <attribute const="false" defaultValue="" isStatic="false" name="M" type="int" visibility="PRIVATE"/>
       <attribute const="false" defaultValue="" isStatic="false" name="N" type="int" visibility="PRIVATE"/>
       <attribute const="false" defaultValue="" isStatic="false" name="array[]" type="int" visibility="PRIVATE"/>
-      <method isAbstract="false" isStatic="false" name="operation" returnType="Matrice" view="DEFAULT" visibility="PUBLIC">
-        <variable const="false" name="matrice" type="Matrice"/>
+      <method isAbstract="false" isStatic="false" name="operation" returnType="Matrix" view="DEFAULT" visibility="PUBLIC">
+        <variable const="false" name="matrice" type="Matrix"/>
         <variable const="false" name="op" type="Operation"/>
       </method>
       <method isAbstract="false" isStatic="false" name="toString" returnType="String" view="DEFAULT" visibility="PUBLIC"/>

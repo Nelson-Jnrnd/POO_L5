@@ -2,7 +2,7 @@
  * Authors:     Alen Bijelic, Nelson Jeanrenaud
  * Date:        03.11.2021
  * <p>
- * Description: Program that tests all the features of the Matrice class for many cases.
+ * Description: Program that tests all the features of the Matrix class for many cases.
  */
 public class Main {
     public static void main(String[] args) {
@@ -31,9 +31,9 @@ public class Main {
         int[] inputs = {1, 2, 3, 4, 5, 10, 20};
         for (int input : inputs) {
             int modulo = 4;
-            Matrice testMatrice = new Matrice(input, input, modulo);
+            Matrix testMatrix = new Matrix(input, input, modulo);
 
-            for (int value : testMatrice.getValues()) {
+            for (int value : testMatrix.getValues()) {
                 if (value >= modulo || value < 0) {
                     testStatus = false;
                     break;
@@ -48,10 +48,10 @@ public class Main {
         int[] values = {1, 2, 0, 33, 51};
 
         int n = 4, m = 4, modulo = 4;
-        Matrice testMatrice = new Matrice(n, m, modulo, values);
+        Matrix testMatrix = new Matrix(n, m, modulo, values);
 
         int i = 0;
-        for (int value : testMatrice.getValues()) {
+        for (int value : testMatrix.getValues()) {
             if (value >= modulo || value < 0) {
                 testStatus = false;
                 break;
@@ -66,7 +66,7 @@ public class Main {
 
         int n = 2, m = 2, modulo = 4;
         try {
-            Matrice testMatrice = new Matrice(n, m, modulo, values);
+            Matrix testMatrix = new Matrix(n, m, modulo, values);
             testStatus = false;
         } catch (RuntimeException ignored) {
         } finally {
@@ -79,9 +79,9 @@ public class Main {
         int[] values = {1, 2, 2};
 
         int n = 5, m = 5, modulo = 4;
-        Matrice testMatrice = new Matrice(n, m, modulo, values);
+        Matrix testMatrix = new Matrix(n, m, modulo, values);
 
-        for (int value : testMatrice.getValues()) {
+        for (int value : testMatrix.getValues()) {
             if (value >= modulo || value < 0) {
                 testStatus = false;
                 break;
@@ -95,17 +95,17 @@ public class Main {
 
         int n = 3, m = 3, modulo = 4;
         try {
-            Matrice testMatrice = new Matrice(0, m, modulo);
+            Matrix testMatrix = new Matrix(0, m, modulo);
             testStatus = false;
         } catch (RuntimeException ignored) {
         }
         try {
-            Matrice testMatrice = new Matrice(n, 0, modulo);
+            Matrix testMatrix = new Matrix(n, 0, modulo);
             testStatus = false;
         } catch (RuntimeException ignored) {
         }
         try {
-            Matrice testMatrice = new Matrice(0, 0, modulo);
+            Matrix testMatrix = new Matrix(0, 0, modulo);
             testStatus = false;
         } catch (RuntimeException ignored) {
         }
@@ -119,17 +119,17 @@ public class Main {
         int[] testValues = {1, 3, 2, 10, 14};
         for (int testValue : testValues) {
             try {
-                Matrice testMatrice = new Matrice(-1 * testValue, testValue, modulo);
+                Matrix testMatrix = new Matrix(-1 * testValue, testValue, modulo);
                 testStatus = false;
             } catch (RuntimeException ignored) {
             }
             try {
-                Matrice testMatrice = new Matrice(testValue, -1 * testValue, modulo);
+                Matrix testMatrix = new Matrix(testValue, -1 * testValue, modulo);
                 testStatus = false;
             } catch (RuntimeException ignored) {
             }
             try {
-                Matrice testMatrice = new Matrice(-1 * testValue, -1 * testValue, modulo);
+                Matrix testMatrix = new Matrix(-1 * testValue, -1 * testValue, modulo);
                 testStatus = false;
             } catch (RuntimeException ignored) {
             }
@@ -142,7 +142,7 @@ public class Main {
 
         int n = 2, m = 2, modulo = 0;
         try {
-            Matrice testMatrice = new Matrice(n, m, modulo);
+            Matrix testMatrix = new Matrix(n, m, modulo);
             testStatus = false;
         } catch (RuntimeException ignored) {
         } finally {
@@ -157,7 +157,7 @@ public class Main {
         int n = 2, m = 2;
         for (int testValue : testValues) {
             try {
-                Matrice testMatrice = new Matrice(n, m, testValue);
+                Matrix testMatrix = new Matrix(n, m, testValue);
                 testStatus = false;
             } catch (RuntimeException ignored) {
             }
@@ -170,15 +170,15 @@ public class Main {
     public static void operationsShouldBeCorrect() {
         boolean testStatus = true;
         int modluo = 5;
-        Matrice testMatrice = new Matrice(4, 4, modluo);
-        Matrice testMatrice2 = new Matrice(4, 4, modluo);
+        Matrix testMatrix = new Matrix(4, 4, modluo);
+        Matrix testMatrix2 = new Matrix(4, 4, modluo);
 
-        int[] matriceValues = testMatrice.getValues();
-        int[] matrice2Values = testMatrice2.getValues();
-        int[] results = testMatrice.add(testMatrice2).getValues();
+        int[] matrixValues = testMatrix.getValues();
+        int[] matrix2Values = testMatrix2.getValues();
+        int[] results = testMatrix.add(testMatrix2).getValues();
 
         for (int i = 0; i < results.length; i++) {
-            if (results[i] != Math.floorMod(matriceValues[i] + matrice2Values[i], modluo)) {
+            if (results[i] != Math.floorMod(matrixValues[i] + matrix2Values[i], modluo)) {
                 testStatus = false;
                 break;
             }
@@ -190,9 +190,9 @@ public class Main {
         boolean testStatus = true;
 
         try {
-            Matrice matrice = new Matrice(5, 5, 2);
-            Matrice matrice2 = new Matrice(5, 5, 3);
-            matrice.add(matrice2);
+            Matrix matrix = new Matrix(5, 5, 2);
+            Matrix matrix2 = new Matrix(5, 5, 3);
+            matrix.add(matrix2);
             testStatus = false;
         } catch (RuntimeException ignored) {
         }
@@ -203,15 +203,15 @@ public class Main {
         boolean testStatus = true;
 
         Equals ope = new Equals();
-        Matrice testMatrice = new Matrice(4, 4, 5);
-        Matrice testMatrice2 = new Matrice(4, 4, 5);
+        Matrix testMatrix = new Matrix(4, 4, 5);
+        Matrix testMatrix2 = new Matrix(4, 4, 5);
 
-        int[] matriceValues = testMatrice.getValues();
-        int[] matrice2Values = testMatrice2.getValues();
-        int[] results = testMatrice.operation(testMatrice2, ope).getValues();
+        int[] matrixValues = testMatrix.getValues();
+        int[] matrix2Values = testMatrix2.getValues();
+        int[] results = testMatrix.operation(testMatrix2, ope).getValues();
 
         for (int i = 0; i < results.length; i++) {
-            if (results[i] != (matriceValues[i] == matrice2Values[i] ? 1 : 0)) {
+            if (results[i] != (matrixValues[i] == matrix2Values[i] ? 1 : 0)) {
                 testStatus = false;
                 break;
             }
@@ -228,14 +228,14 @@ public class Main {
         System.out.println("n1 " + n1 + " m1 " + m1 + " n2 " + n2 + " m2 " + m2);
         System.out.println("modulo1 " + modulo1 + " modulo2 " + modulo2);
 
-        Matrice matrice = new Matrice(n1, m1, modulo1, values);
-        Matrice matrice2 = new Matrice(n2, m2, modulo2, values);
+        Matrix matrix = new Matrix(n1, m1, modulo1, values);
+        Matrix matrix2 = new Matrix(n2, m2, modulo2, values);
 
-        System.out.println("one\n" + matrice);
-        System.out.println("two:\n" + matrice2);
-        System.out.println("one + two\n" + matrice.add(matrice2));
-        System.out.println("one - two\n" + matrice.sub(matrice2));
-        System.out.println("one * two\n" + matrice.multiply(matrice2));
+        System.out.println("one\n" + matrix);
+        System.out.println("two:\n" + matrix2);
+        System.out.println("one + two\n" + matrix.add(matrix2));
+        System.out.println("one - two\n" + matrix.sub(matrix2));
+        System.out.println("one * two\n" + matrix.multiply(matrix2));
     }
 }
 
