@@ -50,6 +50,7 @@ public class Main {
         int n = 4, m = 4, modulo = 4;
         Matrice testMatrice = new Matrice(n, m, modulo, values);
 
+        int i = 0;
         for (int value : testMatrice.getValues()) {
             if (value >= modulo || value < 0) {
                 testStatus = false;
