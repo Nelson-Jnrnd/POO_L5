@@ -70,6 +70,36 @@ public class Matrice {
         this(m.n, m.m, m.modulo, m.values);
     }
 
+    /**
+     * Getter for the N field of the matrix
+     * @return number of columns in the matrix
+     */
+    public int getN(){
+        return n;
+    }
+
+    /**
+     * Getter for the M field of the matrix
+     * @return number of lines in the matrix
+     */
+    public int getM(){
+        return m;
+    }
+
+    /**
+     * Getter for the modulo field of the matrix
+     * @return the modulo of the elements of the matrix
+     */
+    public int getModulo(){
+        return modulo;
+    }
+    /**
+     * Get all the values of the matrice
+     * @return array with all the values of the matrix, from left to right, top to bottom
+     */
+    public int[] getValues(){
+        return values;
+    }
 
     /**
      * Check if a column is in matrix
@@ -109,14 +139,6 @@ public class Matrice {
         if(!isInMatrice(row, column))
             throw new RuntimeException("out of bounds"); // TOOD préciser exception
         return values[(row) * n + column];
-    }
-
-    /**
-     * Get all the values of the matrice
-     * @return array with all the values of the matrix, from left to right, top to bottom
-     */
-    public int[] getValues(){
-        return values;
     }
     // Operations -------------------------------------------------------------
 

@@ -238,6 +238,11 @@ public class Main {
     }
 }
 
+/**
+ * Class that compares two integers and return 1 if they are equal and 0 otherwise.
+ * Used to test if the matrix class allows the user to create his own operations
+ * and if they are applied correctly.
+ */
 class Equals implements Operation {
 
     @Override
